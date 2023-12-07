@@ -1,3 +1,4 @@
+
 import { useRef, useState } from 'react'
 import { useNote } from '../store/store'
 import { nanoid } from 'nanoid';
@@ -6,10 +7,11 @@ function Form() {
 
   const [value, setValue] = useState('');
   const [hashtag, setHashtag] = useState<RegExpMatchArray | null>();
-  const textareraRef = useRef(null)
+  const textareraRef = useRef<HTMLTextAreaElement>(null)
   const { addNote } = useNote( ({addNote}) => ({addNote}) );
 
   function handelTextarea(e:React.ChangeEvent<HTMLTextAreaElement>) {
+    console.log(hashtag)
     setHashtag(value.match(/(#[a-z0-9-_]+)/g) )
     setValue(e.target.value.replace(/(#[a-z0-9-_]+)/g, '<span class="text-red-600">$1</span>'))
    
