@@ -1,4 +1,5 @@
 # Logs
+Filter.tsx
 logs
 *.log
 npm-debug.log*

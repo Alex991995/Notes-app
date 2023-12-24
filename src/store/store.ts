@@ -1,26 +1,65 @@
 import { create } from "zustand";
-import { persist} from "zustand/middleware";
+import { persist, devtools} from "zustand/middleware";
 
 type Notes = {
   id: string,
   text:string
 }
+export type Hashtags = {
+  id:string,
+  value:string,
+  checked?:boolean
+}
 
 type NoteType = {
   notes: Notes[],
-  addNote: (newNote:{ id: string, text:string} ) => void
+  hashtags: Hashtags[],
+  addNote: (newNote:{ id: string, text:string} ) => void,
+  updateNote:(id: string, editNote:string) => void,
+  addHashtag:(newHashtag:{id: string, value:string}) => void
 }
 
 export const useNote = create<NoteType>()(
-  persist((set, get) => ({
+  devtools(
+    persist((set, get) => ({
+      notes: [],
+      hashtags: [],
 
-    notes: [],
-    addNote: (newNote) => {
-      set( {notes: [ ...get().notes , newNote] })
-    },
+      addNote: (newNote) => {
+        set( {notes: [ ...get().notes , newNote] })
+      },
 
+      updateNote:(id, editNote) => {
+        // update note
+        set({notes: get().notes.map(note => {
+          if(note.id === id) {
+            return {...note, text:editNote}
+          }
+          else return note
+        })
+      })
+      // update hashtags
+      const hash = editNote.match(/#\w+/g)?.join(' ')
+        set({ hashtags: get().hashtags.map(item => {
+          if(hash){
+            if(item.id === id && item.value !== hash) return {...item, value:hash }
+            else if(item.id === id && item.value.length === 0) return {...item}
+            else return item
+          }
+          else return {...item, value:""}
+          
+        } 
+        )})
+
+      },
+      addHashtag:(newHashtag) => {
+        const isExit = get().hashtags.some(item => item.value === newHashtag.value )
+        if(!isExit) {
+          set({hashtags: [...get().hashtags, newHashtag ]}) 
+        }
+        else set({hashtags: [...get().hashtags]})
+      }
     }),
-    {name: "any"}
-  ));
-
+    {name: "notes"})
+))
 
