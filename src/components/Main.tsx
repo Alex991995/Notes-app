@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNote } from "../store/store";
 import Form from "./Form";
-import { Hashtags } from "../store/store";
+
 
 function Main() {
   const { notes, hashtags, updateNote} = useNote( ({notes, hashtags, updateNote}) => ({notes, hashtags, updateNote}) );
-  
+
   const [stateNotes , setNotes] = useState(notes)
   const [stateHashtags, setHashtags] =  useState(hashtags.map(item =>  ({...item, checked:false})))
   const [checkedItem, setCheckedItem] = useState(stateHashtags.map(item => item.checked));
