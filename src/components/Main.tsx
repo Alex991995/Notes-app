@@ -7,18 +7,17 @@ function Main() {
   const { notes, hashtags, updateNote} = useNote( ({notes, hashtags, updateNote}) => ({notes, hashtags, updateNote}) );
 
   const [stateNotes , setNotes] = useState(notes)
-  const [stateHashtags, setHashtags] =  useState(hashtags.map(item =>  ({...item, checked:false})))
+  const [stateHashtags, setStateHashtags] =  useState(hashtags.map(item =>  ({...item, checked:false})))
   const [checkedItem, setCheckedItem] = useState(stateHashtags.map(item => item.checked));
 
-
-  // create state with notes and hashtags add every hashtag add checked with boolean 
+  // create state with notes and hashtags add every hashtag add checked 
   useEffect( ()=>{
     setNotes(notes)
-    setHashtags(hashtags.map(item =>  ({...item, checked:false})))
+    setStateHashtags(hashtags.map(item =>  ({...item, checked:false})))
   },[notes])
 
   function handleChange(id:string) {
-    setHashtags( prevHash => 
+    setStateHashtags( prevHash => 
       prevHash.map(item => {
         if(item.id === id ){
           return {...item, checked:!item.checked } 
@@ -31,24 +30,21 @@ function Main() {
     setCheckedItem(stateHashtags.map(item => item.checked))
   },[stateHashtags])
 
-
-
   useEffect( () => {
-    const isCheckedOne = checkedItem.some(item => item)
-   
+    const isOneChecked = checkedItem.some(item => item)
+  
     setNotes( prevNote => 
-      prevNote.filter((note,index) => {
-        if(isCheckedOne) {
-          const isHashChecked = stateHashtags[index++].checked
-          const matchingHash = stateHashtags.find(hash => hash.id === note.id)
-         
-          return isHashChecked && matchingHash
+      prevNote.filter((note) => {
+        if(isOneChecked) {
+          const hashFromNote = note.text.match(/(#[a-z0-9-_]+)/g)?.join('')
+          // const valueOfHashtag = stateHashtags[index].value
+          // const isHashChecked = stateHashtags[index].checked
+          return stateHashtags.some( hash => hash.value === hashFromNote && hash.checked)
         }
         else  return true
-          
+        
       })
   )
-
   },[checkedItem, stateHashtags])
 
   return (
