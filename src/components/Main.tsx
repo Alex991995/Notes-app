@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { useNote } from "../store/store";
+import { Notes, useNote } from "../store/store";
 import Form from "./Form";
 
 
 function Main() {
   const { notes, hashtags, updateNote} = useNote( ({notes, hashtags, updateNote}) => ({notes, hashtags, updateNote}) );
 
-  const [stateNotes , setNotes] = useState(notes)
+  const [currentNote , setCurrentNote] = useState<Notes[]>()
+  //It creates state with present hashtags with checked:false
   const [stateHashtags, setStateHashtags] =  useState(hashtags.map(item =>  ({...item, checked:false})))
+  // that for listen useEffect which is filtering 
   const [checkedItem, setCheckedItem] = useState(stateHashtags.map(item => item.checked));
 
-  // create state with notes and hashtags add every hashtag add checked 
+  // It adds hashtags to stateHashtags after creating new note
   useEffect( ()=>{
-    setNotes(notes)
     setStateHashtags(hashtags.map(item =>  ({...item, checked:false})))
   },[notes])
 
@@ -32,19 +33,14 @@ function Main() {
 
   useEffect( () => {
     const isOneChecked = checkedItem.some(item => item)
-  
-    setNotes( prevNote => 
-      prevNote.filter((note) => {
-        if(isOneChecked) {
-          const hashFromNote = note.text.match(/(#[a-z0-9-_]+)/g)?.join('')
-          // const valueOfHashtag = stateHashtags[index].value
-          // const isHashChecked = stateHashtags[index].checked
-          return stateHashtags.some( hash => hash.value === hashFromNote && hash.checked)
-        }
-        else  return true
-        
-      })
-  )
+    const filterNote = notes.filter(note => {
+      if(isOneChecked) {
+        const hashOfNote = note.text.match(/(#[a-z0-9-_]+)/g)?.join('')
+        return stateHashtags.some( hash => hash.value === hashOfNote && hash.checked)
+       }
+      else  return true
+    })
+    setCurrentNote(filterNote)
   },[checkedItem, stateHashtags])
 
   return (
@@ -66,7 +62,6 @@ function Main() {
       }
 
     </ul>
-
       {/* <Filter stateHashtags={stateHashtags} setStateHashtags={setStateHashtags}/> */}
       </div>
       <ul className="min-h-[100px] flex">
@@ -79,8 +74,8 @@ function Main() {
         }
       </ul>
       <ul className="gallery gap-3 mt-4">
-      {stateNotes &&
-        stateNotes?.map(item => (
+      {currentNote &&
+        currentNote?.map(item => (
           <li
           className="note-item"
           key={item.id}>
