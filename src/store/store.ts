@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, devtools} from "zustand/middleware";
 
-type Notes = {
+export type Notes = {
   id: string,
   text:string
 }
