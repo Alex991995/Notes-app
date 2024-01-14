@@ -32,9 +32,10 @@ function Form() {
 
   return (
     <form className='flex flex-col m-3 max-w-[30rem] w-full' onSubmit={handelAddNote} >
-        <div className='relative   ' >
+        <div className='relative' >
           <textarea
-          placeholder='Type here...' 
+          placeholder=' Create hashtag type #yourHash for example...
+          I wanna go to #shop tomorrow' 
           className='text-transparent bg-transparent caret-black w-full  h-[20rem] border border-slate-700 outline-none break-words' ref={textareraRef}
           onChange={handelTextarea}></textarea>
           <div 
