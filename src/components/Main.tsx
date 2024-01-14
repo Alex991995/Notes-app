@@ -45,9 +45,9 @@ function Main() {
 
   return (
     <main >
-      <div className="flex items-center justify-center mx-6">
+      <div className="flex items-center justify-center mx-6 flex-col sm:flex-row">
         <Form />
-        <ul>
+        <ul className="flex gap-3 sm:block">
         {stateHashtags?.map( (hashtag, index) => (
           <li key={index}>
             <label ><input type="checkbox" 
@@ -59,7 +59,7 @@ function Main() {
         </ul>
       </div>
     
-      <ul className="min-h-[100px] flex justify-center">
+      <ul className="min-h-[100px] flex justify-center items-center">
         {hashtags?.map((hashtag, index) => (
             <li key={index}
             className="mr-3"
@@ -68,8 +68,9 @@ function Main() {
         }
       </ul>
 
-      <ul className="gallery gap-3 mt-4">
-      {currentNote?.map(item => (
+      <ul className="gallery gap-3 m-4">
+      {currentNote?.length === 0 ? <h1 className="text-center text-xl">Type your first note</h1>  :
+      currentNote?.map(item => (
           <li
           className="note-item"
           key={item.id}>

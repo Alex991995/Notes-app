@@ -4,7 +4,7 @@ import Main from "./Main"
 function App() {
   return (
     <>
-    <div className="container md:mx-auto">
+    <div className="container mx-auto">
       <Header />
       <Main />
     </div>     

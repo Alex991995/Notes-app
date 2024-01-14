@@ -31,13 +31,15 @@ function Form() {
   }
 
   return (
-    <form className='flex flex-col m-3' onSubmit={handelAddNote} >
-        <div className='relative inline-block' >
+    <form className='flex flex-col m-3 max-w-[30rem] w-full' onSubmit={handelAddNote} >
+        <div className='relative   ' >
           <textarea
           placeholder='Type here...' 
-          className='text-transparent bg-transparent caret-black w-[30rem] h-[20rem] border border-slate-700 outline-none break-words' ref={textareraRef}
+          className='text-transparent bg-transparent caret-black w-full  h-[20rem] border border-slate-700 outline-none break-words' ref={textareraRef}
           onChange={handelTextarea}></textarea>
-          <div className='absolute top-0 left-0 w-[30rem] h-[20rem] -z-10 break-words whitespace-pre-line' ref={divRef}  dangerouslySetInnerHTML={{ __html: value }}></div>
+          <div 
+          className='absolute top-0 left-0 w-full  h-[20rem] -z-10 break-words whitespace-pre-line' 
+          ref={divRef}  dangerouslySetInnerHTML={{ __html: value }}></div>
         </div>
         <button className='rounded-md p-3 bg-green-500 hover:bg-green-600 transition-colors w-full'>Button</button>
       </form>
