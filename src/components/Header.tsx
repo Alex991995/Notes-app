@@ -1,5 +1,3 @@
-
-
 function Header() {
   return (
     <header className="mt-4">

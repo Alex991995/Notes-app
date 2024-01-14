@@ -7,7 +7,7 @@ function Main() {
   const { notes, hashtags, updateNote} = useNote( ({notes, hashtags, updateNote}) => ({notes, hashtags, updateNote}) );
 
   const [currentNote , setCurrentNote] = useState<Notes[]>()
-  //It creates state with present hashtags with checked:false
+  //It creates state with present hashtags and add new value checked:false
   const [stateHashtags, setStateHashtags] =  useState(hashtags.map(item =>  ({...item, checked:false})))
   // that for listen useEffect which is filtering 
   const [checkedItem, setCheckedItem] = useState(stateHashtags.map(item => item.checked));
@@ -45,37 +45,31 @@ function Main() {
 
   return (
     <main >
-      <div className="flex items-center mx-6">
-      <Form />
-
-      <ul>
-      {stateHashtags && 
-      stateHashtags.map( (hashtag, index) => (
-        <li key={index}>
-          <label ><input type="checkbox" 
-          checked={hashtag.checked !== undefined &&  hashtag.checked } 
-          onChange={() =>handleChange(hashtag.id)}
-          />{hashtag.value}</label>
-        </li>
-        
-      ))
-      }
-
-    </ul>
-      {/* <Filter stateHashtags={stateHashtags} setStateHashtags={setStateHashtags}/> */}
+      <div className="flex items-center justify-center mx-6">
+        <Form />
+        <ul>
+        {stateHashtags?.map( (hashtag, index) => (
+          <li key={index}>
+            <label ><input type="checkbox" 
+            checked={hashtag.checked !== undefined &&  hashtag.checked } 
+            onChange={() =>handleChange(hashtag.id)}
+            />{hashtag.value}</label>
+          </li>
+          ))}
+        </ul>
       </div>
-      <ul className="min-h-[100px] flex">
-        {hashtags && 
-          hashtags?.map((hashtag, index) => (
+    
+      <ul className="min-h-[100px] flex justify-center">
+        {hashtags?.map((hashtag, index) => (
             <li key={index}
             className="mr-3"
             >{hashtag.value}</li>
           ))
         }
       </ul>
+
       <ul className="gallery gap-3 mt-4">
-      {currentNote &&
-        currentNote?.map(item => (
+      {currentNote?.map(item => (
           <li
           className="note-item"
           key={item.id}>

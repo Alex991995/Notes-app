@@ -1,15 +1,12 @@
-
 import { useRef, useState } from 'react'
 import { useNote } from '../store/store'
 import { nanoid } from 'nanoid';
 
 function Form() {
-
   const [value, setValue] = useState('');
   const textareraRef = useRef<HTMLTextAreaElement>(null)
   const divRef = useRef<HTMLDivElement>(null)
   const { addNote, addHashtag } = useNote( ({addNote, addHashtag}) => ({addNote, addHashtag}) );
-
 
   function handelTextarea(e:React.ChangeEvent<HTMLTextAreaElement>) {
     setValue(e.target.value.replace(/(#[a-z0-9-_]+)/g, '<span class="text-red-600">$1</span>'))
@@ -18,20 +15,15 @@ function Form() {
   function handelAddNote(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const newId = nanoid()
-    
     const newHash = value.match(/(#[a-z0-9-_]+)/g)?.join('')
     if(newHash){
       const objHash = {id:newId, value: newHash }
       addHashtag(objHash)
     }
-
-
-   
     if(textareraRef.current !== null && textareraRef.current.value && divRef.current ) {
       const valueFromTextarera = textareraRef.current.value
       const newNote = {id: newId, text:valueFromTextarera }
       addNote(newNote)
-
       textareraRef.current.value = ""
       divRef.current.textContent = ""
     }
@@ -39,7 +31,7 @@ function Form() {
   }
 
   return (
-    <form className='flex flex-col' onSubmit={handelAddNote} >
+    <form className='flex flex-col m-3' onSubmit={handelAddNote} >
         <div className='relative inline-block' >
           <textarea
           placeholder='Type here...' 
