@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Notes, useNote } from "../store/store";
 import Form from "./Form";
+import Filter from "./Filter";
+import DisplayNotes from "./DisplayNotes";
+import AllHashtags from "./AllHashtags";
 
 
 function Main() {
@@ -47,45 +50,10 @@ function Main() {
     <main >
       <div className="flex items-center justify-center mx-6 flex-col sm:flex-row">
         <Form />
-        <ul className="flex gap-3 sm:block">
-        {stateHashtags?.map( (hashtag, index) => (
-          <li key={index}>
-            <label ><input type="checkbox" 
-            checked={hashtag.checked !== undefined &&  hashtag.checked } 
-            onChange={() =>handleChange(hashtag.id)}
-            />{hashtag.value}</label>
-          </li>
-          ))}
-        </ul>
+        <Filter stateHashtags={stateHashtags} handleChange={handleChange}/>
       </div>
-    
-      <ul className="min-h-[100px] flex justify-center items-center">
-        {hashtags?.map((hashtag, index) => (
-            <li key={index}
-            className="mr-3"
-            >{hashtag.value}</li>
-          ))
-        }
-      </ul>
-
-      <ul className="gallery gap-3 m-4">
-      {currentNote?.length === 0 ? <h1 className="text-center text-xl">Type your first note</h1>  :
-      currentNote?.map(item => (
-          <li
-          className="note-item"
-          key={item.id}>
-            <textarea
-            autoFocus
-            className="bg-transparent outline-none text-transparent w-full h-full caret-black break-words"
-            value={item.text}
-            onChange={(e) => updateNote(item.id, e.target.value)}
-            />
-            <div className="absolute top-0 left-0 break-words whitespace-pre-line w-full h-full -z-10 bg-emerald-400"
-            dangerouslySetInnerHTML={{ __html: item.text.replace(/(#[a-z0-9-_]+)/g, '<span class="text-red-600">$1</span>') } }></div>
-            </li>
-        )) 
-      }
-      </ul>
+      <AllHashtags hashtags={hashtags}/>
+      <DisplayNotes  currentNote={currentNote} updateNote={updateNote}/>
     </main>
   );
 }
