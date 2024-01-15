@@ -5,10 +5,8 @@ import Filter from "./Filter";
 import DisplayNotes from "./DisplayNotes";
 import AllHashtags from "./AllHashtags";
 
-
 function Main() {
   const { notes, hashtags, updateNote} = useNote( ({notes, hashtags, updateNote}) => ({notes, hashtags, updateNote}) );
-
   const [currentNote , setCurrentNote] = useState<Notes[]>()
   //It creates state with present hashtags and add new value checked:false
   const [stateHashtags, setStateHashtags] =  useState(hashtags.map(item =>  ({...item, checked:false})))

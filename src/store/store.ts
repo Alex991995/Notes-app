@@ -15,6 +15,7 @@ type NoteType = {
   notes: Notes[],
   hashtags: Hashtags[],
   addNote: (newNote:{ id: string, text:string} ) => void,
+  removeNote: (id:string) => void
   updateNote:(id: string, editNote:string) => void,
   addHashtag:(newHashtag:{id: string, value:string}) => void
 }
@@ -27,6 +28,11 @@ export const useNote = create<NoteType>()(
 
       addNote: (newNote) => {
         set( {notes: [ ...get().notes , newNote] })
+      },
+
+      removeNote: (id) => {
+        set( {notes: get().notes.filter(note => note.id !== id) } )
+        set( {hashtags: get().hashtags.filter(hash => hash.id !== id) } )
       },
 
       updateNote:(id, editNote) => {
@@ -59,6 +65,7 @@ export const useNote = create<NoteType>()(
         }
         else set({hashtags: [...get().hashtags]})
       }
+
     }),
     {name: "notes"})
 ))

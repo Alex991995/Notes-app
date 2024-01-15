@@ -4,7 +4,6 @@ type AllHashtagsProps = {
   hashtags:Hashtags[]
 }
 
-
 export default function AllHashtags({hashtags}:AllHashtagsProps) {
   return (
     <ul className="min-h-[100px] flex justify-center items-center">
