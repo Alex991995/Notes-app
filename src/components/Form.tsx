@@ -9,13 +9,13 @@ function Form() {
   const { addNote, addHashtag } = useNote( ({addNote, addHashtag}) => ({addNote, addHashtag}) );
 
   function handelTextarea(e:React.ChangeEvent<HTMLTextAreaElement>) {
-    setValue(e.target.value.replace(/(#[a-z0-9-_]+)/g, '<span class="text-red-600">$1</span>'))
+    setValue(e.target.value.replace(/(#[a-z-а-я-0-9-_]+)/g, '<span class="text-red-600">$1</span>'))
   }
   
   function handelAddNote(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const newId = nanoid()
-    const newHash = value.match(/(#[a-z0-9-_]+)/g)?.join('')
+    const newHash = value.match(/(#[a-z-а-я-0-9-_]+)/g)?.join('')
     if(newHash){
       const objHash = {id:newId, value: newHash }
       addHashtag(objHash)

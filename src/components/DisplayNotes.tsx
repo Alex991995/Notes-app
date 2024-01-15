@@ -26,7 +26,7 @@ export default function DisplayNotes({currentNote, updateNote}:DisplayNotesProps
           onChange={(e) => updateNote(item.id, e.target.value)}
           />
           <div className="absolute top-0 left-0 break-words whitespace-pre-line w-full h-full -z-10 bg-emerald-400"
-          dangerouslySetInnerHTML={{ __html: item.text.replace(/(#[a-z0-9-_]+)/g, '<span class="text-red-600">$1</span>') } }></div>
+          dangerouslySetInnerHTML={{ __html: item.text.replace(/(#[a-z-а-я--0-9-_]+)/g, '<span class="text-red-600">$1</span>') } }></div>
           <TrashIcon  
           onClick={() =>removeNote(item.id)}
           className="h-6 w-6 absolute right-2 top-2"/>
